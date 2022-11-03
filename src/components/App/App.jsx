@@ -38,7 +38,6 @@ export class App extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (this.state.contacts !== prevState.contacts) {
-      console.log('Обновилось поле контактов');
       localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
     }
   }
@@ -74,18 +73,24 @@ export class App extends Component {
   };
 
   render() {
+    const { contacts, filter } = this.state;
     return (
       <Container>
         <TitlePhonebook title="Phonebook">Phonebook</TitlePhonebook>
         <ContactForm handleSubmit={this.handleContactFormSubmit} />
 
         <TitleContacts title="Contacts">Contacts</TitleContacts>
-        <Filter value={this.state.filter} onChange={this.handleFilterChange} />
-        <ContactList
-          contacts={this.state.contacts}
-          filter={this.state.filter}
-          onDelete={this.handleContactDelete}
-        />
+
+        {contacts.length === 0 ? null : (
+          <Filter value={filter} onChange={this.handleFilterChange} />
+        )}
+        {contacts.length === 0 ? null : (
+          <ContactList
+            contacts={contacts}
+            filter={filter}
+            onDelete={this.handleContactDelete}
+          />
+        )}
         <ToastContainer />
       </Container>
     );

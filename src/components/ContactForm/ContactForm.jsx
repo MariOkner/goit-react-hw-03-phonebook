@@ -11,9 +11,26 @@ import {
 } from './ContactForm.styled';
 
 const initialValues = { name: '', number: '' };
+
+const regexName = /^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$/;
+const regexNumber =
+  /\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}/;
+
 const validationSchema = yup.object({
-  name: yup.string().required(),
-  number: yup.string().required(),
+  name: yup
+    .string()
+    .required('Please enter valid name')
+    .matches(
+      regexName,
+      "Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
+    ),
+  number: yup
+    .string()
+    .required('Please enter valid number')
+    .matches(
+      regexNumber,
+      'Phone number must be digits and can contain spaces, dashes, parentheses and can start with +'
+    ),
 });
 
 export const ContactForm = ({ handleSubmit }) => {
@@ -34,10 +51,10 @@ export const ContactForm = ({ handleSubmit }) => {
           <Field
             type="text"
             name="name"
-            pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-            title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-            required
-            component="input"
+            // pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
+            // title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
+            // required
+            // component="input"
           />
           <ErrorMessage name="name" component="span" />
         </FormLabel>
@@ -47,10 +64,10 @@ export const ContactForm = ({ handleSubmit }) => {
           <Field
             type="tel"
             name="number"
-            pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
-            title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
-            required
-            component="input"
+            // pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
+            // title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
+            // required
+            // component="input"
           />
           <ErrorMessage name="number" component="span" />
         </FormLabel>
